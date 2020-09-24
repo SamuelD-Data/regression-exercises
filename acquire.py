@@ -12,18 +12,14 @@ def get_connection(db, user=env.user, host=env.host, password=env.password):
 ###### ACQUIRE MALL CUSTOMERS DATA ############
 
 def new_mall_data():
-
-# This function reads the mall customer data from the Codeup db into a df, 
-# writes it to a csv file and returns the df
+    '''This function reads the mall customer data from the Codeup db into a df, writes it to a csv file and returns the df'''
     sql_query = 'SELECT * FROM customers'
     df = pd.read_sql(sql_query, get_connection('mall_customers'))
     df.to_csv('mall_customers_df.csv')
     return df
 
 def get_mall_data(cached=False):
-
-#    This function reads in mall customer data from COdeup database if chached == False
-#   or if cached == True reads in mall customer df from a csv file, returns df
+    '''This function reads in mall customer data from Codeup database if cached == False or if cached == True reads in mall customer df from a csv file, returns df'''
 
     if cached or os.path.isfile('mall_customers_df.csv') == False:
         df = new_mall_data()
