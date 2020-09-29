@@ -35,3 +35,25 @@ def wrangle_telco():
     # converting data type to float since we couldnt when there were white space values
     tdf['total_charges'] = tdf.total_charges.astype(float)
     return tdf
+
+# Using function from exercise guide, also adding to wrangle file
+from sklearn.preprocessing import MinMaxScaler
+
+# creating function with 3 parameters, one for each dataset (train, validate, test)
+def minmax_scaler(train, validate, test):
+    '''
+    Function takes in train, validate and test data frames then returns them after scaling them from 0 to 1 
+    '''
+    # creating minmax scaler object
+    scaler = MinMaxScaler()
+    
+    # fitting scaler to each column in the train data set
+    # transforming data in train data set
+    train[['monthly_charges', 'tenure' ,'total_charges']] = scaler.fit_transform(train[['monthly_charges', 'tenure', 'total_charges']])
+    # transforming data in validate and test data sets while scaler fitted to train values
+    validate[['monthly_charges', 'tenure', 'total_charges']] = scaler.transform(validate[['monthly_charges', 'tenure', 'total_charges']])
+    test[['monthly_charges', 'tenure', 'total_charges']] = scaler.transform(test[['monthly_charges', 'tenure', 'total_charges']])
+    # returning scaled data sets
+    return train, validate, test
+
+
