@@ -5,6 +5,9 @@ import seaborn as sns
 import acquire
 import env
 import os
+from sklearn.model_selection import train_test_split
+import warnings
+warnings.filterwarnings("ignore")
 
 # creating function that returns a path that can be used to connect to SQL database
 def get_connection(db, user=env.user, host=env.host, password=env.password):
@@ -36,6 +39,7 @@ def wrangle_telco():
     tdf['total_charges'] = tdf.total_charges.astype(float)
     return tdf
 
+
 # Using function from exercise guide, also adding to wrangle file
 from sklearn.preprocessing import MinMaxScaler
 
@@ -63,3 +67,8 @@ def wrangle_grades():
     df = grades.dropna().astype("int")
     return df
 
+# creating function to split data into train, validate and test DFs
+def train_valid_test(df):
+    train_validate, test = train_test_split(df, test_size = .2, random_state = 123)
+    train, validate = train_test_split(train_validate, test_size = .3, random_state = 123)
+    return train, validate, test
